@@ -35,11 +35,13 @@ FString UReadWriteTextFile::ReadStringFromFile(const FString& FilePath,
   return RetString;
 }
 
-void UReadWriteTextFile::WriteStringFromFile(const FString& FilePath,
-                                             const FString& String,
-                                             bool& bOutSuccess,
-                                             FString& OutInfoMessage) {
-  if (!FFileHelper::SaveStringToFile(String, *FilePath)) {
+void UReadWriteTextFile::WriteStringToFile(const FString& FilePath,
+                                           const FString& String,
+                                           bool& bOutSuccess,
+                                           FString& OutInfoMessage) {
+  if (!FFileHelper::SaveStringToFile(String, *FilePath,
+                                     FFileHelper::EEncodingOptions::AutoDetect,
+                                     &IFileManager::Get(), FILEWRITE_Append)) {
     bOutSuccess = false;
     OutInfoMessage = FString::Printf(
         TEXT("Write String To File Failed - Was not able to write to file. Is "

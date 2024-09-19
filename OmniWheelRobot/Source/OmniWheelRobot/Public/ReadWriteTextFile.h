@@ -18,7 +18,6 @@ class OMNIWHEELROBOT_API UReadWriteTextFile : public UBlueprintFunctionLibrary {
                                     FString& OutInfoMessage);
 
   UFUNCTION(BlueprintCallable, Category = "Read Write File")
-  static void WriteStringFromFile(const FString& FilePath,
-                                  const FString& String, bool& bOutSuccess,
-                                  FString& OutInfoMessage);
+  static void WriteStringToFile(const FString& FilePath, const FString& String,
+                                bool& bOutSuccess, FString& OutInfoMessage);
 };
