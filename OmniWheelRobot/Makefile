@@ -2,7 +2,9 @@
 # *DO NOT EDIT*
 
 UNREALROOTPATH = /opt/unreal-engine
-GAMEPROJECTFILE =/home/me/Projects/omni-wheel-motion-platform-modelling-ue/OmniWheelRobot/OmniWheelRobot.uproject
+# UNREALROOTPATH = /opt/unreal-engine
+GAMEPROJECTFILE = /home/me/Projects/omni-wheel-motion-platform-modelling-ue/OmniWheelRobot/OmniWheelRobot.uproject
+GAMEPROJECTFILE = C:\Users\tychob\Projects\omni-wheel-motion-platform-modelling-ue\OmniWheelRobot\OmniWheelRobot.uproject
 
 TARGETS = \
 	OmniWheelRobot-Linux-DebugGame  \
