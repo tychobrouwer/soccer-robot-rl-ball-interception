@@ -4,9 +4,9 @@
 
 #include "HAL/PlatformFileManager.h"
 
-FString UReadWriteTextFile::ReadStringFromFile(const FString& FilePath,
-                                               bool& bOutSuccess,
-                                               FString& OutInfoMessage) {
+FString UReadWriteTextFile::ReadStringFromFile(const FString &FilePath,
+                                               bool &bOutSuccess,
+                                               FString &OutInfoMessage) {
   if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FilePath)) {
     bOutSuccess = false;
     OutInfoMessage = FString::Printf(
@@ -35,10 +35,56 @@ FString UReadWriteTextFile::ReadStringFromFile(const FString& FilePath,
   return RetString;
 }
 
-void UReadWriteTextFile::WriteStringToFile(const FString& FilePath,
-                                           const FString& String,
-                                           bool& bOutSuccess,
-                                           FString& OutInfoMessage) {
+TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
+                                                    const int32 LineIndex,
+                                                    bool &bOutSuccess,
+                                                    FString &OutInfoMessage) {
+  const FString FileContent =
+      ReadStringFromFile(FilePath, bOutSuccess, OutInfoMessage);
+
+  TArray<FString> Lines;
+  const int32 LineCount = FileContent.ParseIntoArrayLines(Lines, true);
+
+  if (LineIndex >= LineCount) {
+    bOutSuccess = false;
+    OutInfoMessage = FString::Printf(
+        TEXT("Read Line From Input Failed - Line index out of bounds - '%s'"),
+        *FilePath);
+
+    return TArray<float>();
+  }
+
+  const FString InputLineString = Lines[LineIndex];
+
+  TArray<FString> InputStringValues;
+
+  const int32 InputCount =
+      InputLineString.ParseIntoArray(InputStringValues, TEXT(","), true);
+
+  TArray<float> InputValues;
+  for (int32 i = 0; i < InputCount; i++) {
+    InputValues.Insert(i, FCString::Atof(*InputStringValues[i]));
+  }
+
+  if (InputCount < 10) {
+    bOutSuccess = true;
+    OutInfoMessage = FString::Printf(
+        TEXT("Input file did not contain all setpoint variables"));
+
+    return TArray<float>();
+  }
+
+  bOutSuccess = true;
+  OutInfoMessage =
+      FString::Printf(TEXT("Read Line From Input Succeeded - '%s'"), *FilePath);
+
+  return InputValues;
+}
+
+void UReadWriteTextFile::WriteStringToFile(const FString &FilePath,
+                                           const FString &String,
+                                           bool &bOutSuccess,
+                                           FString &OutInfoMessage) {
   if (!FFileHelper::SaveStringToFile(String, *FilePath,
                                      FFileHelper::EEncodingOptions::AutoDetect,
                                      &IFileManager::Get(), FILEWRITE_Append)) {
