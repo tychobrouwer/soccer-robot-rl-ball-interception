@@ -83,7 +83,7 @@ TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
     if (InputStringValues.IsValidIndex(i))
     {
       float Value = FCString::Atof(*InputStringValues[i]);
-      InputValues.Insert(Value, i);
+      InputValues.Add(Value);
     }
     else
     {
@@ -107,6 +107,71 @@ TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
       FString::Printf(TEXT("Read Line From Input Succeeded - '%s'"), *FilePath);
 
   return InputValues;
+}
+
+TArray<float> UReadWriteTextFile::ReadNLinesFromInput(const FString &FilePath,
+                                                      const int32 LineIndex,
+                                                      const int32 NLines,
+                                                      bool &bOutSuccess,
+                                                      FString &OutInfoMessage)
+{
+  const FString FileContent =
+      ReadStringFromFile(FilePath, bOutSuccess, OutInfoMessage);
+
+  if (!bOutSuccess)
+  {
+    return TArray<float>();
+  }
+
+  TArray<FString> Lines;
+  const int32 LineCount = FileContent.ParseIntoArrayLines(Lines, true);
+
+  if (LineIndex >= LineCount)
+  {
+    bOutSuccess = false;
+    OutInfoMessage = FString::Printf(
+        TEXT("Read N Lines From Input Failed - Line index out of bounds - '%s'"),
+        *FilePath);
+
+    UE_LOG(LogTemp, Error, TEXT("Line index out of bounds"));
+
+    return TArray<float>();
+  }
+
+  TArray<float> AllInputValues;
+  for (int32 i = LineIndex; i < LineIndex + NLines && i < LineCount; i++)
+  {
+    if (!Lines.IsValidIndex(i))
+    {
+      UE_LOG(LogTemp, Error, TEXT("Index %d out of bounds for Lines"), i);
+      continue;
+    }
+
+    const FString InputLineString = Lines[i];
+
+    TArray<FString> InputStringValues;
+    const int32 InputCount =
+        InputLineString.ParseIntoArray(InputStringValues, TEXT(","), true);
+
+    for (int32 j = 0; j < InputCount; j++)
+    {
+      if (InputStringValues.IsValidIndex(j))
+      {
+        float Value = FCString::Atof(*InputStringValues[j]);
+        AllInputValues.Add(Value);
+      }
+      else
+      {
+        UE_LOG(LogTemp, Error, TEXT("Index %d out of bounds for InputStringValues"), j);
+      }
+    }
+  }
+
+  bOutSuccess = true;
+  OutInfoMessage =
+      FString::Printf(TEXT("Read N Lines From Input Succeeded - '%s'"), *FilePath);
+
+  return AllInputValues;
 }
 
 void UReadWriteTextFile::WriteStringToFile(const FString &FilePath,
