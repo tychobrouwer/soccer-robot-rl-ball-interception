@@ -10,10 +10,9 @@
  *
  */
 UCLASS()
-class OMNIWHEELROBOT_API UReadWriteTextFile : public UBlueprintFunctionLibrary
-{
+class OMNIWHEELROBOT_API UReadWriteTextFile : public UBlueprintFunctionLibrary {
   GENERATED_BODY()
-public:
+ public:
   UFUNCTION(BlueprintCallable, Category = "Read Write File")
   static FString ReadStringFromFile(const FString &FilePath, bool &bOutSuccess,
                                     FString &OutInfoMessage);
@@ -24,12 +23,10 @@ public:
                                          bool &bOutSuccess,
                                          FString &OutInfoMessage);
 
-  UFUNCTION(BlueprintCallable, Category = "Read Input File N Lines")
-  static TArray<float> ReadNLinesFromInput(const FString &FilePath,
-                                           const int32 LineIndex,
-                                           const int32 NLines,
-                                           bool &bOutSuccess,
-                                           FString &OutInfoMessage);
+  UFUNCTION(BlueprintCallable, Category = "Read Input File All Lines")
+  static TArray<float> ReadLinesFromInput(const FString &FilePath,
+                                          bool &bOutSuccess,
+                                          FString &OutInfoMessage);
 
   UFUNCTION(BlueprintCallable, Category = "Read Write File")
   static void WriteStringToFile(const FString &FilePath, const FString &String,
