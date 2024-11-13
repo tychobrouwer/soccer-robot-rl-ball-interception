@@ -6,8 +6,10 @@
 
 FString UReadWriteTextFile::ReadStringFromFile(const FString &FilePath,
                                                bool &bOutSuccess,
-                                               FString &OutInfoMessage) {
-  if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FilePath)) {
+                                               FString &OutInfoMessage)
+{
+  if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FilePath))
+  {
     bOutSuccess = false;
     OutInfoMessage = FString::Printf(
         TEXT("Read String From File Failed - File doesn't exist - '%s'"),
@@ -20,7 +22,8 @@ FString UReadWriteTextFile::ReadStringFromFile(const FString &FilePath,
 
   FString RetString = "";
 
-  if (!FFileHelper::LoadFileToString(RetString, *FilePath)) {
+  if (!FFileHelper::LoadFileToString(RetString, *FilePath))
+  {
     bOutSuccess = false;
     OutInfoMessage =
         FString::Printf(TEXT("Read String From File Failed - Was not able to "
@@ -43,18 +46,21 @@ FString UReadWriteTextFile::ReadStringFromFile(const FString &FilePath,
 TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
                                                     const int32 LineIndex,
                                                     bool &bOutSuccess,
-                                                    FString &OutInfoMessage) {
+                                                    FString &OutInfoMessage)
+{
   const FString FileContent =
       ReadStringFromFile(FilePath, bOutSuccess, OutInfoMessage);
 
-  if (!bOutSuccess) {
+  if (!bOutSuccess)
+  {
     return TArray<float>();
   }
 
   TArray<FString> Lines;
   const int32 LineCount = FileContent.ParseIntoArrayLines(Lines, true);
 
-  if (LineIndex >= LineCount) {
+  if (LineIndex >= LineCount)
+  {
     bOutSuccess = false;
     OutInfoMessage = FString::Printf(
         TEXT("Read Line From Input Failed - Line index out of bounds - '%s'"),
@@ -73,17 +79,22 @@ TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
       InputLineString.ParseIntoArray(InputStringValues, TEXT(","), true);
 
   TArray<float> InputValues;
-  for (int32 i = 0; i < InputCount; i++) {
-    if (InputStringValues.IsValidIndex(i)) {
+  for (int32 i = 0; i < InputCount; i++)
+  {
+    if (InputStringValues.IsValidIndex(i))
+    {
       float Value = FCString::Atof(*InputStringValues[i]);
       InputValues.Add(Value);
-    } else {
+    }
+    else
+    {
       UE_LOG(LogTemp, Error,
              TEXT("Index %d out of bounds for InputStringValues"), i);
     }
   }
 
-  if (InputCount < 10) {
+  if (InputCount < 10)
+  {
     bOutSuccess = true;
     OutInfoMessage = FString::Printf(
         TEXT("Input file did not contain all setpoint variables"));
@@ -103,11 +114,13 @@ TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
 
 TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
                                                      bool &bOutSuccess,
-                                                     FString &OutInfoMessage) {
+                                                     FString &OutInfoMessage)
+{
   const FString FileContent =
       ReadStringFromFile(FilePath, bOutSuccess, OutInfoMessage);
 
-  if (!bOutSuccess) {
+  if (!bOutSuccess)
+  {
     return TArray<float>();
   }
 
@@ -115,8 +128,10 @@ TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
   const int32 LineCount = FileContent.ParseIntoArrayLines(Lines, true);
 
   TArray<float> AllInputValues;
-  for (int32 i = 0; i < LineCount; i++) {
-    if (!Lines.IsValidIndex(i)) {
+  for (int32 i = 0; i < LineCount; i++)
+  {
+    if (!Lines.IsValidIndex(i))
+    {
       UE_LOG(LogTemp, Error, TEXT("Index %d out of bounds for Lines"), i);
       continue;
     }
@@ -127,7 +142,8 @@ TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
     const int32 InputCount =
         InputLineString.ParseIntoArray(InputStringValues, TEXT(","), true);
 
-    if (InputCount < 10) {
+    if (InputCount < 10)
+    {
       bOutSuccess = true;
       OutInfoMessage = FString::Printf(
           TEXT("Input file did not contain all setpoint variables"));
@@ -138,11 +154,15 @@ TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
       return TArray<float>();
     }
 
-    for (int32 j = 0; j < InputCount; j++) {
-      if (InputStringValues.IsValidIndex(j)) {
+    for (int32 j = 0; j < InputCount; j++)
+    {
+      if (InputStringValues.IsValidIndex(j))
+      {
         float Value = FCString::Atof(*InputStringValues[j]);
         AllInputValues.Add(Value);
-      } else {
+      }
+      else
+      {
         UE_LOG(LogTemp, Error,
                TEXT("Index %d out of bounds for InputStringValues"), j);
       }
@@ -159,10 +179,12 @@ TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
 void UReadWriteTextFile::WriteStringToFile(const FString &FilePath,
                                            const FString &String,
                                            bool &bOutSuccess,
-                                           FString &OutInfoMessage) {
+                                           FString &OutInfoMessage)
+{
   if (!FFileHelper::SaveStringToFile(String, *FilePath,
                                      FFileHelper::EEncodingOptions::AutoDetect,
-                                     &IFileManager::Get(), FILEWRITE_Append)) {
+                                     &IFileManager::Get(), FILEWRITE_Append))
+  {
     bOutSuccess = false;
     OutInfoMessage = FString::Printf(
         TEXT("Write String To File Failed - Was not able to write to file. Is "
