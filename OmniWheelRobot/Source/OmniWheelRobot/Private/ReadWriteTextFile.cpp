@@ -202,3 +202,41 @@ void UReadWriteTextFile::WriteStringToFile(const FString &FilePath,
   OutInfoMessage = FString::Printf(
       TEXT("Write String To File Succeeeded - '%s'"), *FilePath);
 }
+
+void UReadWriteTextFile::WriteLinesFromOutput(const FString &FilePath,
+                                              const TArray<float> &OutputValues,
+                                              bool &bOutSuccess,
+                                              FString &OutInfoMessage)
+{
+  FString OutputString = "";
+
+  for (int32 i = 0; i < OutputValues.Num(); i += 9)
+  {
+    for (int32 j = 0; j < 9; j++)
+    {
+      if (OutputValues.IsValidIndex(i + j))
+      {
+        OutputString += FString::SanitizeFloat(OutputValues[i + j]);
+        if (j < 8)
+        {
+          OutputString += ",";
+        }
+      }
+      else
+      {
+        UE_LOG(LogTemp, Error,
+               TEXT("Index %d out of bounds for OutputValues"), i + j);
+
+        bOutSuccess = false;
+        OutInfoMessage = FString::Printf(
+            TEXT("Write Lines From Output Failed - Index out of bounds - '%s'"),
+            *FilePath);
+
+        return;
+      }
+    }
+    OutputString += "\n";
+  }
+
+  WriteStringToFile(FilePath, OutputString, bOutSuccess, OutInfoMessage);
+}
