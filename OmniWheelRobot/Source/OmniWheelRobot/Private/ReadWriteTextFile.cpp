@@ -40,67 +40,6 @@ FString UReadWriteTextFile::ReadStringFromFile(const FString &FilePath,
   return RetString;
 }
 
-TArray<float> UReadWriteTextFile::ReadLineFromInput(const FString &FilePath,
-                                                    const int32 LineIndex,
-                                                    bool &bOutSuccess,
-                                                    FString &OutInfoMessage) {
-  const FString FileContent =
-      ReadStringFromFile(FilePath, bOutSuccess, OutInfoMessage);
-
-  if (!bOutSuccess) {
-    return TArray<float>();
-  }
-
-  TArray<FString> Lines;
-  const int32 LineCount = FileContent.ParseIntoArrayLines(Lines, true);
-
-  if (LineIndex >= LineCount) {
-    bOutSuccess = false;
-    OutInfoMessage = FString::Printf(
-        TEXT("Read Line From Input Failed - Line index out of bounds - '%s'"),
-        *FilePath);
-
-    UE_LOG(LogTemp, Error, TEXT("Line index out of bounds"));
-
-    return TArray<float>();
-  }
-
-  const FString InputLineString = Lines[LineIndex];
-
-  TArray<FString> InputStringValues;
-
-  const int32 InputCount =
-      InputLineString.ParseIntoArray(InputStringValues, TEXT(","), true);
-
-  TArray<float> InputValues;
-  for (int32 i = 0; i < InputCount; i++) {
-    if (InputStringValues.IsValidIndex(i)) {
-      float Value = FCString::Atof(*InputStringValues[i]);
-      InputValues.Add(Value);
-    } else {
-      UE_LOG(LogTemp, Error,
-             TEXT("Index %d out of bounds for InputStringValues"), i);
-    }
-  }
-
-  if (InputCount < 10) {
-    bOutSuccess = true;
-    OutInfoMessage = FString::Printf(
-        TEXT("Input file did not contain all setpoint variables"));
-
-    UE_LOG(LogTemp, Error,
-           TEXT("Input file did not contain all setpoint variables"));
-
-    return TArray<float>();
-  }
-
-  bOutSuccess = true;
-  OutInfoMessage =
-      FString::Printf(TEXT("Read Line From Input Succeeded - '%s'"), *FilePath);
-
-  return InputValues;
-}
-
 TArray<float> UReadWriteTextFile::ReadLinesFromInput(const FString &FilePath,
                                                      bool &bOutSuccess,
                                                      FString &OutInfoMessage) {
