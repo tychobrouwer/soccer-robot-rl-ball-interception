@@ -1,0 +1,236 @@
+{
+	"TaskName": "Training",
+	"TrainerMethod": "PPO",
+	"TimeStamp": "2024-12-28_23-36-53",
+	"Networks": [
+		{
+			"Id": 0,
+			"Name": "DA_NeuralNetworkPolicyR",
+			"MaxByteNum": 470580
+		},
+		{
+			"Id": 1,
+			"Name": "CriticNetwork_0",
+			"MaxByteNum": 104728,
+			"InputSchemaId": 0
+		},
+		{
+			"Id": 2,
+			"Name": "DA_NeuralNetworkEncoderR",
+			"MaxByteNum": 676,
+			"InputSchemaId": 0
+		},
+		{
+			"Id": 3,
+			"Name": "DA_NeuralNetworkDecoderR",
+			"MaxByteNum": 416,
+			"OutputSchemaId": 0
+		}
+	],
+	"ReplayBuffers": [
+		{
+			"Id": 0,
+			"MaxEpisodeNum": 2000,
+			"MaxStepNum": 20000,
+			"HasCompletions": true,
+			"HasFinalObservations": true,
+			"HasFinalMemoryStates": true,
+			"Observations": [
+				{
+					"Id": 0,
+					"Name": "Observations",
+					"SchemaId": 0,
+					"VectorDimensionNum": 9
+				}
+			],
+			"Actions": [
+				{
+					"Id": 0,
+					"Name": "Actions",
+					"SchemaId": 0,
+					"VectorDimensionNum": 4
+				}
+			],
+			"MemoryStates": [
+				{
+					"Id": 0,
+					"Name": "MemoryStates",
+					"VectorDimensionNum": 64
+				}
+			],
+			"Rewards": [
+				{
+					"Id": 0,
+					"Name": "Rewards",
+					"VectorDimensionNum": 1
+				}
+			]
+		}
+	],
+	"Schemas":
+	{
+		"Observations": [
+			{
+				"Id": 0,
+				"Name": "Default",
+				"Schema":
+				{
+					"VectorSize": 9,
+					"EncodedSize": 9,
+					"Type": "And",
+					"Elements":
+					{
+						"Ball":
+						{
+							"VectorSize": 6,
+							"EncodedSize": 6,
+							"Type": "And",
+							"Elements":
+							{
+								"Location":
+								{
+									"VectorSize": 3,
+									"EncodedSize": 3,
+									"Type": "Continuous",
+									"Num": 3,
+									"Index": 0
+								},
+								"Velocity":
+								{
+									"VectorSize": 3,
+									"EncodedSize": 3,
+									"Type": "Continuous",
+									"Num": 3,
+									"Index": 1
+								}
+							},
+							"Index": 0
+						},
+						"robotVelocity":
+						{
+							"VectorSize": 3,
+							"EncodedSize": 3,
+							"Type": "Continuous",
+							"Num": 3,
+							"Index": 1
+						}
+					}
+				}
+			}
+		],
+		"Actions": [
+			{
+				"Id": 0,
+				"Name": "Default",
+				"Schema":
+				{
+					"VectorSize": 4,
+					"DistributionSize": 5,
+					"EncodedSize": 5,
+					"Type": "And",
+					"Elements":
+					{
+						"acceleration":
+						{
+							"VectorSize": 3,
+							"DistributionSize": 3,
+							"EncodedSize": 3,
+							"Type": "DiscreteExclusive",
+							"Num": 3,
+							"Index": 0
+						},
+						"direction":
+						{
+							"VectorSize": 1,
+							"DistributionSize": 2,
+							"EncodedSize": 2,
+							"Type": "Continuous",
+							"Num": 1,
+							"Index": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	"PPOSettings":
+	{
+		"IterationNum": 1000000,
+		"LearningRatePolicy": 9.9999997473787516e-05,
+		"LearningRateCritic": 0.0010000000474974513,
+		"LearningRateDecay": 1,
+		"WeightDecay": 9.9999997473787516e-05,
+		"PolicyBatchSize": 1024,
+		"CriticBatchSize": 4096,
+		"PolicyWindow": 16,
+		"IterationsPerGather": 32,
+		"CriticWarmupIterations": 8,
+		"EpsilonClip": 0.20000000298023224,
+		"ActionSurrogateWeight": 1,
+		"ActionRegularizationWeight": 0.0010000000474974513,
+		"ActionEntropyWeight": 0,
+		"ReturnRegularizationWeight": 9.9999997473787516e-05,
+		"GaeLambda": 0.94999998807907104,
+		"AdvantageNormalization": true,
+		"AdvantageMin": 0,
+		"AdvantageMax": 10,
+		"UseGradNormMaxClipping": false,
+		"GradNormMax": 0.5,
+		"TrimEpisodeStartStepNum": 0,
+		"TrimEpisodeEndStepNum": 0,
+		"Seed": 1234,
+		"DiscountFactor": 0.99000000953674316,
+		"Device": "GPU",
+		"UseTensorBoard": true,
+		"SaveSnapshots": true
+	},
+	"IntermediatePath": "C:/Users/tychob/Projects/omni-wheel-motion-platform-modelling-ue/OmniWheelRobot/Intermediate/LearningAgents",
+	"LoggingEnabled": true,
+	"SharedMemory":
+	{
+		"ProcessNum": 1,
+		"NetworkGuids": [
+			{
+				"NetworkId": 0,
+				"Guid": "{DB4B4935-43D9-7FEB-0570-41B4D8BBC30F}"
+			},
+			{
+				"NetworkId": 1,
+				"Guid": "{D6DD9394-472A-7110-D9C6-02ADA4635933}"
+			},
+			{
+				"NetworkId": 2,
+				"Guid": "{72C61308-44DA-EF6B-5730-96A34F00B03B}"
+			},
+			{
+				"NetworkId": 3,
+				"Guid": "{B0A190F0-4FE5-9CBB-AAED-99A75D65BF82}"
+			}
+		],
+		"ReplayBuffers": [
+			{
+				"EpisodeStartsGuid": "{B6590C66-4CCE-42ED-EF94-108274181809}",
+				"EpisodeLengthsGuid": "{51C8D3C2-4E1B-7B45-3851-ACA448764A4B}",
+				"EpisodeCompletionModesGuid": "{35ECEA21-4763-30E7-E018-FF9633B4B83C}",
+				"EpisodeFinalObservationsGuids": [
+					"{EB2FB476-4A22-4D10-4FEC-10A11701743A}"
+				],
+				"EpisodeFinalMemoryStatesGuids": [
+					"{7A9B1F45-4BBB-24A9-608B-6AA389C7174D}"
+				],
+				"ObservationsGuids": [
+					"{E59C154A-4342-79BA-8018-90B733CDED67}"
+				],
+				"ActionsGuids": [
+					"{26D17AE4-4695-D9F0-329E-BF93AA6F9BEE}"
+				],
+				"MemoryStatesGuids": [
+					"{448AD033-4782-AAB6-8A7C-DE912EDAE1F0}"
+				],
+				"RewardsGuids": [
+					"{2DF0C145-42E4-6C5F-BBFC-84A2FB02033D}"
+				]
+			}
+		]
+	}
+}
