@@ -38,11 +38,9 @@ for n = 1:length(files)
       end_index2 = 10130;
     elseif  n == 3
       start_index = 1;
-      end_index = 2000;
-      % end_index = 7000;
+      end_index = 7000;
       start_index2 = 2600;
-      % end_index2 = 4800;
-      end_index2 = 3000;
+      end_index2 = 4800;
     elseif  n == 4
       start_index = 1;
       end_index = 9500;

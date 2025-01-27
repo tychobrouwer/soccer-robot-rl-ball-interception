@@ -81,6 +81,10 @@ for i = 1:size(datas, 1)
           if data(k) ~= -1
             p = (n-1)*length(distances) + m;
 
+            if n == 2 && l == 1 && o == 1
+              k
+            end
+
             speed_mits(i, n) = speed_mits(i, n) + data(k);
             distance_mits(i, m) = distance_mits(i, m) + data(k);
             direction_mits(i, l) = direction_mits(i, l) + data(k);

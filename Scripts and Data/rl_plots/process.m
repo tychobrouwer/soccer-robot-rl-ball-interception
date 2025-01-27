@@ -38,12 +38,12 @@ for i = 1:1
     
     % Add title, labels, and legend
     xlabel('X Position [m]');
-    if i == 1
+    % if i == 1
 
       ylabel('Y Position [m]');
-    else
-      ylabel('  ')
-    end
+    % else
+    %   ylabel('  ')
+    % end
 
     if k == 16
       xlim([-5, 5]);
@@ -64,7 +64,10 @@ for i = 1:1
       xlim([-7, 13]); 
       ylim([-8, 12]);
     end
-    legend({"Robot trajectory", "Ball trajectory"});
+
+    if k == 52 && i == 1
+      legend({"Robot trajectory", "Ball trajectory"});
+    end
     set(gca, 'TickLabelInterpreter', 'latex');
     set(gca, 'fontsize', 20);
     set(gca,'fontname','Linux Libertine');
